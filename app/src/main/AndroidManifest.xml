@@ -10,10 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SampleNotesApp"
-        tools:targetApi="31">
+        android:theme="@style/Theme.SampleNotesApp">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.feature.home.HomeActivity"
             android:exported="true"
             android:theme="@style/Theme.SampleNotesApp">
             <intent-filter>
