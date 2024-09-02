@@ -6,6 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.util.Date
 import kotlin.random.Random
 
@@ -49,5 +50,18 @@ object InMemoryNoteRepository : NoteRepository {
                 createdAt = Date(),
             ),
         )
+    }
+
+    override suspend fun saveNote(title: String, description: String): Result<Unit> = runCatching {
+        val newNote = NoteDomain(
+            id = Random.nextLong(),
+            title = title,
+            description = description,
+            createdAt = Date(),
+        )
+
+        _notes.update {
+            it.plus(newNote)
+        }
     }
 }

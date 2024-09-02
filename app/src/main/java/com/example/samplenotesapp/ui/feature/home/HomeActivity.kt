@@ -1,5 +1,6 @@
 package com.example.samplenotesapp.ui.feature.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.samplenotesapp.R
 import com.example.samplenotesapp.databinding.ActivityMainBinding
+import com.example.samplenotesapp.domain.model.SortType
+import com.example.samplenotesapp.ui.feature.create.AddNoteActivity
 import com.example.samplenotesapp.ui.feature.home.adapter.NotesAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -72,10 +75,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupActionButton() {
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        binding.fab.setOnClickListener {
+            startActivity(Intent(this, AddNoteActivity::class.java))
         }
     }
 
@@ -105,7 +106,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
     private fun openSortNotesDialog() {
-        val sortVariants = HomeUiState.SortType.entries
+        val sortVariants = SortType.entries
         val selectedSortType = viewModel.state.value.sortType
 
         MaterialAlertDialogBuilder(this)

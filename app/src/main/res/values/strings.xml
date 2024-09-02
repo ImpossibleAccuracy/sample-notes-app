@@ -9,4 +9,6 @@
     <string name="no_sort">No sort</string>
     <string name="sort_by_title">Sort by title</string>
     <string name="sort_by_date">Sort by date</string>
+    <string name="save_note">Save note</string>
+    <string name="note_creation_error">Error while creating note</string>
 </resources>

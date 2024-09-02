@@ -7,4 +7,9 @@ interface NoteRepository {
     val notes: Flow<List<NoteDomain>>
 
     suspend fun updateNotes()
+
+    suspend fun saveNote(
+        title: String,
+        description: String,
+    ): Result<Unit>
 }

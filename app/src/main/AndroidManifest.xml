@@ -8,17 +8,22 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SampleNotesApp.Starting">
+        android:theme="@style/Theme.SampleNotesApp">
 
         <activity
             android:name=".ui.feature.home.HomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SampleNotesApp.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.feature.create.AddNoteActivity"
+            android:label="@string/add_note" />
     </application>
 
 </manifest>

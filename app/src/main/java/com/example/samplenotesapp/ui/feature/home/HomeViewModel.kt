@@ -4,8 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samplenotesapp.data.repository.InMemoryNoteRepository
-import com.example.samplenotesapp.domain.model.NoteDomain
+import com.example.samplenotesapp.domain.model.SortType
 import com.example.samplenotesapp.domain.repository.NoteRepository
+import com.example.samplenotesapp.domain.usecase.SortNotesUseCase
 import com.example.samplenotesapp.ui.mapper.toPresentation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
+    private val sortNotesUseCase = SortNotesUseCase()
     private val noteRepository: NoteRepository = InMemoryNoteRepository
+
     private val dateFormat = android.text.format.DateFormat.getLongDateFormat(application)
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -26,7 +29,7 @@ class HomeViewModel(
             noteRepository
                 .notes
                 .collect { notes ->
-                    val resultNotes = sortNotes(notes, state.value.sortType)
+                    val resultNotes = sortNotesUseCase(notes, state.value.sortType)
                         .map { note ->
                             note.toPresentation(dateFormat)
                         }
@@ -59,7 +62,7 @@ class HomeViewModel(
         }
     }
 
-    fun setSortType(type: HomeUiState.SortType) {
+    fun setSortType(type: SortType) {
         _state.update {
             it.copy(
                 sortType = type
@@ -68,14 +71,4 @@ class HomeViewModel(
 
         loadNotes()
     }
-
-    private fun sortNotes(
-        notes: List<NoteDomain>,
-        sortType: HomeUiState.SortType
-    ): List<NoteDomain> =
-        when (sortType) {
-            HomeUiState.SortType.NONE -> notes
-            HomeUiState.SortType.TITLE -> notes.sortedBy { it.title }
-            HomeUiState.SortType.CREATED_AT -> notes.sortedBy { it.createdAt }
-        }
 }
