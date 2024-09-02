@@ -19,7 +19,7 @@ class HomeViewModel(
     private val sortNotesUseCase = SortNotesUseCase()
     private val noteRepository: NoteRepository = InMemoryNoteRepository
 
-    private val dateFormat = android.text.format.DateFormat.getLongDateFormat(application)
+    private val dateFormat = android.text.format.DateFormat.getMediumDateFormat(application)
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()

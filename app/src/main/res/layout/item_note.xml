@@ -17,7 +17,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             tools:text="Note title" />
 
         <TextView
@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:maxLines="3"
             android:textAppearance="?attr/textAppearanceBody2"
             tools:text="Note description" />
     </LinearLayout>

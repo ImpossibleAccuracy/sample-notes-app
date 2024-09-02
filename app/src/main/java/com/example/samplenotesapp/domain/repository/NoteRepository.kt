@@ -12,4 +12,6 @@ interface NoteRepository {
         title: String,
         description: String,
     ): Result<Unit>
+
+    fun observeNote(id: Long): Flow<NoteDomain?>
 }

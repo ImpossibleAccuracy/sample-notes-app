@@ -17,9 +17,9 @@ import com.example.samplenotesapp.R
 import com.example.samplenotesapp.databinding.ActivityMainBinding
 import com.example.samplenotesapp.domain.model.SortType
 import com.example.samplenotesapp.ui.feature.create.AddNoteActivity
+import com.example.samplenotesapp.ui.feature.detail.NoteDetailsActivity
 import com.example.samplenotesapp.ui.feature.home.adapter.NotesAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -32,9 +32,10 @@ class HomeActivity : AppCompatActivity() {
 
     private val notesAdapter by lazy {
         NotesAdapter(this) {
-            Snackbar.make(binding.root, "Item ${it.title} clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+            Intent(this, NoteDetailsActivity::class.java).apply {
+                putExtra("id", it.id)
+                startActivity(this)
+            }
         }
     }
 

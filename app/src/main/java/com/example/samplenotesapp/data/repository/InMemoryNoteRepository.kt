@@ -6,6 +6,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import java.util.Date
 import kotlin.random.Random
@@ -64,4 +66,12 @@ object InMemoryNoteRepository : NoteRepository {
             it.plus(newNote)
         }
     }
+
+    override fun observeNote(id: Long): Flow<NoteDomain?> = _notes
+        .map { list ->
+            list.firstOrNull {
+                it.id == id
+            }
+        }
+        .distinctUntilChanged()
 }
