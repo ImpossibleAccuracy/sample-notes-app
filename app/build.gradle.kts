@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.loadProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,6 +19,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
+    val keystoreProperties = loadProperties(rootProject.file("keystore.properties").path)
+
+    signingConfigs {
+        create("config") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -24,17 +42,32 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions.add("environment")
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".develop"
+            versionNameSuffix = "-dev"
+
+            resValue("string", "app_name", "NOTES DEV")
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        viewBinding = true
     }
 }
 
